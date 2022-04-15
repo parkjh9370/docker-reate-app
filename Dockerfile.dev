@@ -1,0 +1,28 @@
+FROM node:alpine
+
+WORKDIR /usr/src/app
+
+COPY package.json ./
+
+RUN npm install
+
+COPY ./ ./
+
+CMD ["npm", "run", "start"]
+
+# DOCKER_BUILDKIT=0 docker build -f Dockerfile.dev -t parkjh9370/docker-react-app ./
+# 로컬 환경 이미지를 만들기 위해
+# -f [Dockerfile 이름] 을 통해 이미지 파일을 지정해준다
+
+# 이미지 파일 생성 시 node_modules는 중복 파일이므로 제외
+
+# docker run -it -p 3000:3000 [이미지이름]
+
+# docker Volume (맵핑 - 이미지를 다시 빌드하지 않아도 현재 파일 즉각 반영)
+# docker run -it -p 3000:3000 -v /usr/src/app/node_modules -v $(pwd):/usr/src/app  parkjh9370/docker-react-app
+# node_modules : 참조x (현재 로컬에 해당 파일이 없으므로)
+
+
+# 테스트
+# docker run -it parkjh9370/docker-react-app npm run test
+# npm run test
